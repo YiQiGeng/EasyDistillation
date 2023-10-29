@@ -132,10 +132,11 @@ for t_src in range(1):
         # tmp = -tmp
         twopt[:, (t_snk - t_src) % Lt] += tmp
 
+    ed1 = time.time()
+    print(f"time{t_src} caululate done, time used: %.3f s" % (ed1 - st1))
+
 from lattice.gamma import gamma
 
-ed1 = time.time()
-print(f"time{t_src} caululate done, time used: %.3f s" % (ed1 - st1))
 pp = (gamma(0) + gamma(8)) / 2
 pm = (gamma(0) - gamma(8)) / 2
 corr_diagram = contract("ntqryz,Qq,Rr,Yy,Zz->ntQRYZ", twopt, pp, pp, pp, pp)
