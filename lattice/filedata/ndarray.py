@@ -3,6 +3,8 @@ from typing import Tuple
 
 from .abstract import FileMetaData, FileData, File
 from ..backend import get_backend
+from insertion.gamma import gamma
+from opt_einsum import contract
 
 
 class NdarrayFileData(FileData):
@@ -23,7 +25,14 @@ class NdarrayFileData(FileData):
         #         self.file,
         #     )[key]
         # )
-        ret = backend.asarray(numpy.load(self.file, mmap_mode="r")[key].copy())
+        Utran = (-gamma(2) + backend.matmul(gamma(1), gamma(4))) / backend.sqrt(2)
+        Utran_dagger = backend.transpose(backend.conj(Utran))
+        ret = contract(
+            "nm,tTmpab,po->tTnoab",
+            Utran_dagger,
+            backend.asarray(numpy.load(self.file, mmap_mode="r")[key].copy()),
+            Utran,
+        )
         self.time_in_sec += time() - s
         self.size_in_byte += ret.nbytes
         return ret

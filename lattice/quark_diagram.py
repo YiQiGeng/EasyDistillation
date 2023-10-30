@@ -390,10 +390,11 @@ class Propagator:
         self.cache_dagger = None
         self.cached_time = None
 
-    def load(self, key, usedNe: int = None):
+    def load(self, key, usedDirac: int, usedNe: int = None):
         if self.key != key:
             self.key = key
             self.usedNe = usedNe
+            self.usedDirac = usedDirac
             self.perambulator_data = self.perambulator.load(key)
 
     def get(self, t_source, t_sink):
@@ -402,7 +403,12 @@ class Propagator:
         if isinstance(t_source, int) and isinstance(t_sink, int):
             if self.cached_time != t_source and self.cached_time != t_sink:
                 self.cache = self.perambulator_data[
-                    t_source, :, :, :, : self.usedNe, : self.usedNe
+                    t_source,
+                    :,
+                    : self.usedDirac,
+                    : self.usedDirac,
+                    : self.usedNe,
+                    : self.usedNe,
                 ]
                 self.cache_dagger = contract(
                     "ik,tlkba,lj->tijab", gamma(15), self.cache.conj(), gamma(15)

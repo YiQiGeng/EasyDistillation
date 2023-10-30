@@ -20,15 +20,22 @@ class _Constant:
     @lru_cache(1)
     def gamma_0():
         backend = get_backend()
+        # return backend.array(
+        #     [
+        #         [0, 0, 0, 1j],
+        #         [0, 0, 1j, 0],
+        #         [0, -1j, 0, 0],
+        #         [-1j, 0, 0, 0],
+        #     ]
+        # )
         return backend.array(
             [
-                [0, 0, 0, 1j],
-                [0, 0, 1j, 0],
-                [0, -1j, 0, 0],
-                [-1j, 0, 0, 0],
+                [0, 0, 0, -1j],
+                [0, 0, -1j, 0],
+                [0, 1j, 0, 0],
+                [1j, 0, 0, 0],
             ]
         )
-
     @staticmethod
     @lru_cache(1)
     def gamma_1():
@@ -40,34 +47,47 @@ class _Constant:
                 [0, 1, 0, 0],
                 [-1, 0, 0, 0],
             ]
-        )
-
+        )s
     @staticmethod
     @lru_cache(1)
     def gamma_2():
         backend = get_backend()
+        # return backend.array(
+        #     [
+        #         [0, 0, 1j, 0],
+        #         [0, 0, 0, -1j],
+        #         [-1j, 0, 0, 0],
+        #         [0, 1j, 0, 0],
+        #     ]
+        # )
         return backend.array(
             [
-                [0, 0, 1j, 0],
-                [0, 0, 0, -1j],
-                [-1j, 0, 0, 0],
-                [0, 1j, 0, 0],
+                [0, 0, -1j, 0],
+                [0, 0, 0, 1j],
+                [1j, 0, 0, 0],
+                [0, -1j, 0, 0],
             ]
         )
-
     @staticmethod
     @lru_cache(1)
     def gamma_3():
         backend = get_backend()
+        # return backend.array(
+        #     [
+        #         [0, 0, 1, 0],
+        #         [0, 0, 0, 1],
+        #         [1, 0, 0, 0],
+        #         [0, 1, 0, 0],
+        #     ]
+        # )
         return backend.array(
             [
-                [0, 0, 1, 0],
-                [0, 0, 0, 1],
                 [1, 0, 0, 0],
                 [0, 1, 0, 0],
+                [0, 0, -1, 0],
+                [0, 0, 0, -1],
             ]
         )
-
 
 def output(n: int):
     assert isinstance(n, int) and 0 <= n <= 15
